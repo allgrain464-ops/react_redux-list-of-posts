@@ -38,26 +38,13 @@ export const PostDetails: React.FC<Props> = ({ post }) => {
     };
   }, [post.id, dispatch]);
 
-  const handleAddComment = async ({
-    name,
-    email,
-    body,
-  }: CommentData): Promise<void> => {
-    const result = await dispatch(
+  const handleAddComment = async (data: CommentData): Promise<void> => {
+    await dispatch(
       addCommentThunk({
-        name,
-        email,
-        body,
+        ...data,
         postId: post.id,
       }),
     );
-
-    if (addCommentThunk.rejected.match(result)) {
-      // The Redux slice sets hasError when adding a comment fails.
-      return;
-    }
-
-    setVisible(false);
   };
 
   const handleDeleteComment = async (commentId: number) => {
